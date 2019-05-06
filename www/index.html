@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Required meta tags-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+
+    <!-- Your app title -->
+    <title>Travel Tool</title>
+
+    <!-- Required libreries -->
+    <link rel="stylesheet" href="lib/framework7/css/framework7.ios.colors.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>                        
+              </button>
+              <div class="navbar-brand" >TRAVELER TOOLS</div>    
+          </div>
+      
+          <div>
+              <div class="collapse navbar-collapse" id="myNavbar">
+                  <ul class="nav navbar-nav">
+                      <li><a href="#home">HOME</a></li>
+                      <li><a href="#weather">WEATHER</a></li>
+                      <li><a href="#currency">CURRENCY</a></li>
+                      <li><a href="#mapa">MAP</a></li>
+                      <li><a href="#history">HISTORY</a></li>
+                  </ul>
+              </div>
+          </div>
+      
+        </div>
+      </nav>    
+      
+      <div id="home" class ="container-fluid"> 
+          <h2 class="text-center"> Get ready to discover new places in</h2>
+          <img class="img-rounded" id="flag">
+          <h1 class="text-center" id="country">...</h1>
+          <h3 class="text-center"> Next you'll find usefull information about this place.</h3>
+          <br>
+          <table>
+                  <thead>
+                    <tr>
+                      <th class="text-center" >City</th>
+                      <th class="text-center">Zone</th>
+                      <th class="text-center">Currency</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                      <td id="city">.</td>
+                      <td id="zone">.</td>
+                      <td id="moneda">.</td>
+                  </tr>
+                  </tbody>
+                </table>
+      </div>
+      
+      <div id="space" class="container-fluid"></div>
+
+      <div id="weather" class="container-fluid">
+        <img src="image/Weather.jpg" class="img-responsive">
+        <h3 class="text-center" id="date">...</h3>
+        <br>
+        <h3 class="text-center">Current weather conditions in this zone:</h3>
+        <table class="table table-condensed">
+            <tbody>
+              <tr>
+                <td>Current Tempeture</td>
+                <td id="temp">...</td>
+              </tr>
+              <tr>
+                <td>Max Tempeture</td>
+                <td id="tempMax">...</td>
+              </tr>
+              <tr>
+                <td>Min Tempeture</td>
+                <td id="tempMin">...</td>
+              </tr>
+              <tr>
+                <td>Humidity</td>
+                <td id="humedad">...</td>
+              </tr>
+            </tbody>
+          </table> 
+      </div>
+      
+      <div id="space" class="container-fluid"></div>
+      
+      <div id="currency" class="container-fluid">
+          <h2 class="text-center">Currency Converter</h2>
+          <img src="image/currency.jpg" class="img-responsive">
+          <br>   
+          <h3 class="text-center">A little help for a healty economy!</h3>
+          <br>
+          <h2 class="text-center"></h2>
+          <div class="fab"> <input type="number" id="input" class="text-center" > </input></div>
+
+          <table class="table">
+            <tbody>
+              <tr class="tr">
+                <td class="td"><button type="button" class="btn btn-default" onclick="RateToUSD()">Currency->USD</button></td>
+                <td class="td"><button type="button" class="btn btn-default" onclick="USDtoRate()">USD->Currency</button></td>
+              </tr>
+            </tbody>
+          </table> 
+
+          <div id="result" class="fab2"> Your conversion is.. </div>
+          <div id="moneda2" class="fab2"> . </div>
+                            
+      </div>
+      
+      <div id="space" class="container-fluid"></div>
+      
+      <div id="mapa" class="container-fluid">
+          <h3 class="text-center">Explore what is around you!</h3>
+          <div id="map"></div>
+      </div>
+      
+      <div id="space" class="container-fluid responsive"></div> 
+      
+      <div id="history" class="container-fluid">
+          <h1 class="text-center"> Travel History</h1>
+          <img src="image/note2.jpg" class="img-responsive">
+          <table class="table">
+            <tbody>
+              <tr class="tr">
+                <td class="td"><button type="button" class="btn btn-default" onclick="readInput()">Save Travel</button></td>
+                <td class="td"><button type="button" class="btn btn-default" onclick="limpia()">Clear History</button></td>
+              </tr>
+            </tbody>
+          </table> 
+          <div>
+            <h4 id="displayInfo" class="text-center"> </h4>
+          </div>
+      </div>
+      
+      
+    <script type="text/javascript" src="js/myApp.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+      
+      <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApFPNQ2WxbEueUXMJBPHjLenlPnFo68ls&callback=initMap"> </script>
+</body>
+
+</html>
