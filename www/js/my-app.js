@@ -14,7 +14,8 @@ var mainView = myApp.addView('.view-main', {
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");
-    console.log("hola");
+    tryingFile();
+    getLocation();
 });
 
 // Now we need to run the code that will be executed only for About page.
@@ -55,10 +56,6 @@ var lng;
 var rate;
 var currency;
 
-function start(){
-    getLocation();
-    tryingFile();
-} 
 
 function getLocation(){
     navigator.geolocation.getCurrentPosition(geoCallback, onError);
@@ -285,13 +282,4 @@ function limpia() {
             });
     }
 
-    function permiso(){
-    var Permission = window.plugins.Permission;
-    // request grant for a permission
-    var permission = 'android.permission.ACCESS_COARSE_LOCATION';
-    Permission.request(permission, function(results) {
-        if (results[permission]) {
-            // permission is granted
-        }
-    }, alert)
-}
+
