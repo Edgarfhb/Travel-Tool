@@ -14,17 +14,14 @@ var mainView = myApp.addView('.view-main', {
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");
-    getLocation();
-    tryingFile();
+    console.log("hola");
 });
-
 
 // Now we need to run the code that will be executed only for About page.
 
 // Option 1. Using page callback for page (for "about" page in this case) (recommended way):
 myApp.onPageInit('about', function (page) {
     // Do something here for "about" page
-
 })
 
 // Option 2. Using one 'pageInit' event handler for all pages:
@@ -58,6 +55,10 @@ var lng;
 var rate;
 var currency;
 
+function start(){
+    getLocation();
+    tryingFile();
+} 
 
 function getLocation(){
     navigator.geolocation.getCurrentPosition(geoCallback, onError);
@@ -283,3 +284,14 @@ function limpia() {
         console.log('Could not delete Config file. '+error);
             });
     }
+
+    function permiso(){
+    var Permission = window.plugins.Permission;
+    // request grant for a permission
+    var permission = 'android.permission.ACCESS_COARSE_LOCATION';
+    Permission.request(permission, function(results) {
+        if (results[permission]) {
+            // permission is granted
+        }
+    }, alert)
+}
