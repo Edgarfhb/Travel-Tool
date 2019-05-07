@@ -24,13 +24,13 @@
 #import <sys/xattr.h>
 
 @implementation CDVLocalFilesystem
-@synthesize name=_name, fsRoot=_fsRoot, urlTransformer;
+@synthesize name=_name, fsRoot=_fsRoot;
 
 - (id) initWithName:(NSString *)name root:(NSString *)fsRoot
 {
     if (self) {
-        self.name = name;
-        self.fsRoot = fsRoot;
+        _name = name;
+        _fsRoot = fsRoot;
     }
     return self;
 }
@@ -78,13 +78,7 @@
     [dirEntry setObject:fullPath forKey:@"fullPath"];
     [dirEntry setObject:lastPart forKey:@"name"];
     [dirEntry setObject:self.name forKey: @"filesystemName"];
-
-    NSURL* nativeURL = [NSURL fileURLWithPath:[self filesystemPathForFullPath:fullPath]];
-    if (self.urlTransformer) {
-        nativeURL = self.urlTransformer(nativeURL);
-    }
-
-    dirEntry[@"nativeURL"] = [nativeURL absoluteString];
+    dirEntry[@"nativeURL"] = [[NSURL fileURLWithPath:[self filesystemPathForFullPath:fullPath]] absoluteString];
 
     return dirEntry;
 }
@@ -167,16 +161,6 @@
 
 }
 
-- (BOOL)valueForKeyIsNumber:(NSDictionary*)dict key:(NSString*)key
-{
-    BOOL bNumber = NO;
-    NSObject* value = dict[key];
-    if (value) {
-        bNumber = [value isKindOfClass:[NSNumber class]];
-    }
-    return bNumber;
-}
-
 - (CDVPluginResult *)getFileForURL:(CDVFilesystemURL *)baseURI requestedPath:(NSString *)requestedPath options:(NSDictionary *)options
 {
     CDVPluginResult* result = nil;
@@ -185,13 +169,14 @@
     BOOL exclusive = NO;
     int errorCode = 0;  // !!! risky - no error code currently defined for 0
 
-    if ([self valueForKeyIsNumber:options key:@"create"]) {
+    if ([options valueForKeyIsNumber:@"create"]) {
         create = [(NSNumber*)[options valueForKey:@"create"] boolValue];
     }
-    if ([self valueForKeyIsNumber:options key:@"exclusive"]) {
+    if ([options valueForKeyIsNumber:@"exclusive"]) {
         exclusive = [(NSNumber*)[options valueForKey:@"exclusive"] boolValue];
     }
-    if ([self valueForKeyIsNumber:options key:@"getDir"]) {
+
+    if ([options valueForKeyIsNumber:@"getDir"]) {
         // this will not exist for calls directly to getFile but will have been set by getDirectory before calling this method
         bDirRequest = [(NSNumber*)[options valueForKey:@"getDir"] boolValue];
     }
@@ -206,7 +191,7 @@
         NSString *combinedPath = [baseURI.fullPath stringByAppendingPathComponent:requestedPath];
         combinedPath = [self normalizePath:combinedPath];
         CDVFilesystemURL* requestedURL = [self URLforFullPath:combinedPath];
-
+        
         NSFileManager* fileMgr = [[NSFileManager alloc] init];
         BOOL bIsDir;
         BOOL bExists = [fileMgr fileExistsAtPath:[self filesystemPathForURL:requestedURL] isDirectory:&bIsDir];
@@ -450,7 +435,7 @@
         if (fileStream) {
             NSUInteger len = [encData length];
             if (len == 0) {
-                result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:(double)len];
+                result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:len];
             } else {
                 [fileStream open];
 
@@ -703,7 +688,7 @@
         NSMutableDictionary* fileInfo = [NSMutableDictionary dictionaryWithCapacity:5];
 
         [fileInfo setObject:localURL.fullPath forKey:@"fullPath"];
-        [fileInfo setObject:[self mimeTypeForFileAtPath: path] forKey:@"type"];
+        [fileInfo setObject:@"" forKey:@"type"];  // can't easily get the mimetype unless create URL, send request and read response so skipping
         [fileInfo setObject:[path lastPathComponent] forKey:@"name"];
 
         // Ensure that directories (and other non-regular files) report size of 0
@@ -729,22 +714,6 @@
     }
 
     callback(result);
-}
-
-// fix errors that base on Alexsander Akers from http://stackoverflow.com/a/5998683/2613194
-- (NSString*) mimeTypeForFileAtPath: (NSString *) path {
-    if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
-        return nil;
-    }
-    
-    CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)[path pathExtension], NULL);
-    CFStringRef mimeType = UTTypeCopyPreferredTagWithClass (UTI, kUTTagClassMIMEType);
-    CFRelease(UTI);
-    
-    if (!mimeType) {
-        return @"application/octet-stream";
-    }
-    return (__bridge NSString *)mimeType;
 }
 
 @end

@@ -20,8 +20,8 @@
 #import <Foundation/Foundation.h>
 #import <Cordova/CDVPlugin.h>
 
-extern NSString* const kCDVAssetsLibraryPrefix;
-extern NSString* const kCDVFilesystemURLPrefix;
+NSString* const kCDVAssetsLibraryPrefix;
+NSString* const kCDVFilesystemURLPrefix;
 
 enum CDVFileError {
     NO_ERROR = 0,
@@ -80,7 +80,6 @@ typedef int CDVFileError;
 - (NSDictionary*)makeEntryForPath:(NSString*)fullPath isDirectory:(BOOL)isDir;
 
 @property (nonatomic,strong) NSString *name;
-@property (nonatomic, copy) NSURL*(^urlTransformer)(NSURL*);
 
 @optional
 - (NSString *)filesystemPathForURL:(CDVFilesystemURL *)localURI;

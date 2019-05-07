@@ -17,7 +17,7 @@
     under the License.
 -->
 
-# cordova-plugin-file
+# org.apache.cordova.file
 
 Этот плагин реализует API файла, позволяя доступ на чтение и запись в файлы, находящиеся на устройстве.
 
@@ -37,7 +37,7 @@
 
 ## Установка
 
-    cordova plugin add cordova-plugin-file
+    cordova plugin add org.apache.cordova.file
     
 
 ## Поддерживаемые платформы

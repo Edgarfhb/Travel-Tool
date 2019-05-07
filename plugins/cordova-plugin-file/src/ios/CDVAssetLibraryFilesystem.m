@@ -29,7 +29,7 @@ NSString* const kCDVAssetsLibraryPrefix = @"assets-library://";
 NSString* const kCDVAssetsLibraryScheme = @"assets-library";
 
 @implementation CDVAssetLibraryFilesystem
-@synthesize name=_name, urlTransformer;
+@synthesize name=_name;
 
 
 /*
@@ -71,12 +71,7 @@ NSString* const kCDVAssetsLibraryScheme = @"assets-library";
     [dirEntry setObject:fullPath forKey:@"fullPath"];
     [dirEntry setObject:lastPart forKey:@"name"];
     [dirEntry setObject:self.name forKey: @"filesystemName"];
-
-    NSURL* nativeURL = [NSURL URLWithString:[NSString stringWithFormat:@"assets-library:/%@",fullPath]];
-    if (self.urlTransformer) {
-        nativeURL = self.urlTransformer(nativeURL);
-    }
-    dirEntry[@"nativeURL"] = [nativeURL absoluteString];
+    dirEntry[@"nativeURL"] = [NSString stringWithFormat:@"assets-library:/%@",fullPath];
 
     return dirEntry;
 }
@@ -114,7 +109,7 @@ NSString* const kCDVAssetsLibraryScheme = @"assets-library";
 - (id)initWithName:(NSString *)name
 {
     if (self) {
-        self.name = name;
+        _name = name;
     }
     return self;
 }
@@ -194,9 +189,8 @@ NSString* const kCDVAssetsLibraryScheme = @"assets-library";
         if (asset) {
             // We have the asset!  Get the data and send it off.
             ALAssetRepresentation* assetRepresentation = [asset defaultRepresentation];
-            NSUInteger size = (end > start) ? (end - start) : [assetRepresentation size];
-            Byte* buffer = (Byte*)malloc(size);
-            NSUInteger bufferSize = [assetRepresentation getBytes:buffer fromOffset:start length:size error:nil];
+            Byte* buffer = (Byte*)malloc([assetRepresentation size]);
+            NSUInteger bufferSize = [assetRepresentation getBytes:buffer fromOffset:0.0 length:[assetRepresentation size] error:nil];
             NSData* data = [NSData dataWithBytesNoCopy:buffer length:bufferSize freeWhenDone:YES];
             NSString* MIMEType = (__bridge_transfer NSString*)UTTypeCopyPreferredTagWithClass((__bridge CFStringRef)[assetRepresentation UTI], kUTTagClassMIMEType);
 
