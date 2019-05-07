@@ -147,8 +147,9 @@ function RateToUSD(){
 }
 
 function tryingFile(){
-
-    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fileSystemCallback, onError);   
+    console.log("hola");
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fileSystemCallback, onError); 
+    console.log("adios");  
 }
 
 function fileSystemCallback(fs){
