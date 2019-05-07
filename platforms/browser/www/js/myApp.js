@@ -2,10 +2,10 @@ document.addEventListener('deviceready',this.onDeviceRedy, false);
 
 function onDeviceRedy(){
     console.log("device ready");
-    //GET THE FILE READY
-    tryingFile();
     //CALL LOCATION WHEN DEVICE US READY
     getLocation();
+    //GET THE FILE READY
+    tryingFile();   
 }
 
 //GLOBAL VARIABLES 
