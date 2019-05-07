@@ -14,8 +14,10 @@ var mainView = myApp.addView('.view-main', {
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");
+    permiso();
+    console.log("hola");
+    //tryingFile();
     getLocation();
-    tryingFile();
 });
 
 
@@ -283,3 +285,14 @@ function limpia() {
         console.log('Could not delete Config file. '+error);
             });
     }
+
+    function permiso(){
+    var Permission = window.plugins.Permission;
+    // request grant for a permission
+    var permission = 'android.permission.ACCESS_COARSE_LOCATION';
+    Permission.request(permission, function(results) {
+        if (results[permission]) {
+            // permission is granted
+        }
+    }, alert)
+}
