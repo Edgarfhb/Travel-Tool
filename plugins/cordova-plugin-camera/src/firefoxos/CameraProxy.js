@@ -19,8 +19,6 @@
  *
  */
 
-/* globals MozActivity */
-
 function takePicture(success, error, opts) {
     var pick = new MozActivity({
         name: "pick",
@@ -34,7 +32,7 @@ function takePicture(success, error, opts) {
     pick.onsuccess = function() {
         // image is returned as Blob in this.result.blob
         // we need to call success with url or base64 encoded image
-        if (opts && opts.destinationType === 0) {
+        if (opts && opts.destinationType == 0) {
             // TODO: base64
             return;
         }
