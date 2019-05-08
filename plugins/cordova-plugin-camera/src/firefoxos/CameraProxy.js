@@ -17,16 +17,37 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
-
-/**
- * @ignore in favour of iOS' one
- * A handle to an image picker popover.
  */
-var CameraPopoverHandle = function() {
-    this.setPosition = function(popoverOptions) {
-        console.log('CameraPopoverHandle.setPosition is only supported on iOS.');
+
+/* globals MozActivity */
+
+function takePicture(success, error, opts) {
+    var pick = new MozActivity({
+        name: "pick",
+        data: {
+            type: ["image/*"]
+        }
+    });
+
+    pick.onerror = error || function() {};
+
+    pick.onsuccess = function() {
+        // image is returned as Blob in this.result.blob
+        // we need to call success with url or base64 encoded image
+        if (opts && opts.destinationType === 0) {
+            // TODO: base64
+            return;
+        }
+        if (!opts || !opts.destinationType || opts.destinationType > 0) {
+            // url
+            return success(window.URL.createObjectURL(this.result.blob));
+        }
     };
+}
+
+module.exports = {
+    takePicture: takePicture,
+    cleanup: function(){}
 };
 
-module.exports = CameraPopoverHandle;
+require("cordova/exec/proxy").add("Camera", module.exports);
