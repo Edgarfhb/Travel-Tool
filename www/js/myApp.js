@@ -19,11 +19,14 @@ var lat;
 var lng;
 var rate;
 var currency;
+var map;
+var Infowindow;
 
 
 function getLocation(){
     navigator.geolocation.getCurrentPosition(geoCallback, onError);
     //alert("getLocation ready");
+   
 }
 
 //GET THE LATITUDE AND LONGITUDE
@@ -33,10 +36,12 @@ function geoCallback(position){
     lng = position.coords.longitude;
     
     //alert("location ready");
-    //HERE I INITIALIZE ALL THE FUNCTIONS THAT WE NEED FOR THE APP
-    getWeather() //WEATHER INFO
-    openCage();  //CITY INFO
-    initMap();  //MAP FROM LOCATION
+      //HERE I INITIALIZE ALL THE FUNCTIONS THAT WE NEED FOR THE APP
+      getWeather() //WEATHER INFO
+      openCage();  //CITY INFO
+      initMap();  //MAP FROM LOCATION
+      getPlaces();
+     
 }
 
 function onError(error){
@@ -46,9 +51,26 @@ function onError(error){
 
 function initMap() {
     var location = new google.maps.LatLng(lat, lng); 
-    var map = new google.maps.Map(document.getElementById("map"), { zoom: 15,
+    map = new google.maps.Map(document.getElementById("map"), { zoom: 15,
     center: location });
     var marker = new google.maps.Marker({position: location, map: map });
+
+    Infowindow = new google.maps.InfoWindow();
+ 
+    var service = new google.maps.places.PlacesService(map);
+    service.nearbySearch({
+ 
+        location: latLong,
+        radius: 500,
+        type: ['bar']
+        }, function(results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          for (var i = 0; i < results.length; i++) {
+            createMarker(results[i]);
+          }
+        }
+      });
+    
 }
 
 function openCage(){
@@ -248,6 +270,34 @@ function limpia() {
     }
 
 
-
+////////////////////////////////////
+ 
+// Place a pin for each store on the map
+ 
+function createMarker(place) {
+ 
+    var marker = new google.maps.Marker({
+        map: map,
+        position: place.geometry.location
+    });
+ 
+    google.maps.event.addListener(marker, 'click', function () {
+ 
+        Infowindow.setContent(place.name);
+        Infowindow.open(map, this);
+ 
+    });
+}
+ 
+function pics(){
+    navigator.camera.getPicture(cameraCallback, onError);
+    }
+    
+function cameraCallback(imageData) {
+    var image = document.getElementById('myImage');
+    image.src = imageData;
+    }
+    
+ 
 
 

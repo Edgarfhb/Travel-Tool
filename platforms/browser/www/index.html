@@ -12,6 +12,9 @@
 
     <!-- Your app title -->
     <title>Travel Tool</title>
+    <script 
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApFPNQ2WxbEueUXMJBPHjLenlPnFo68ls&libraries=places">
+    </script>
 
     <!-- Required libreries -->
     <link rel="stylesheet" href="lib/framework7/css/framework7.ios.colors.min.css">
@@ -32,16 +35,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>                        
               </button>
-              <div class="navbar-brand" >TRAVELER TOOLS</div>    
+              <div class="navbar-brand" >TRAVEL TOOL</div>    
           </div>
       
           <div>
               <div class="collapse navbar-collapse" id="myNavbar">
                   <ul class="nav navbar-nav">
                       <li><a href="#home">HOME</a></li>
+                      <li><a href="#mapa">MAP</a></li>
                       <li><a href="#weather">WEATHER</a></li>
                       <li><a href="#currency">CURRENCY</a></li>
-                      <li><a href="#mapa">MAP</a></li>
+                      <li><a href="#photo">INSTANT MOMENT</a></li>
                       <li><a href="#history">HISTORY</a></li>
                   </ul>
               </div>
@@ -57,24 +61,31 @@
           <h3 class="text-center"> Next you'll find usefull information about this place.</h3>
           <br>
           <table>
-                  <thead>
-                    <tr>
-                      <th class="text-center" >City</th>
-                      <th class="text-center">Zone</th>
-                      <th class="text-center">Currency</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                      <td id="city">.</td>
-                      <td id="zone">.</td>
-                      <td id="moneda">.</td>
-                  </tr>
-                  </tbody>
-                </table>
+              <thead>
+                <tr>
+                  <th class="text-center" >City</th>
+                  <th class="text-center">Zone</th>
+                  <th class="text-center">Currency</th>
+                </tr>
+              </thead>
+              <tbody>
+              <tr>
+                  <td id="city">.</td>
+                  <td id="zone">.</td>
+                  <td id="moneda">.</td>
+              </tr>
+              </tbody>
+          </table>
+      </div>
+
+      <div id="space" class="container-fluid"></div>
+      
+      <div id="mapa" class="container-fluid">
+          <h3 class="text-center">Explore what is around you!</h3>
+          <div id="map"></div>
       </div>
       
-      <div id="space" class="container-fluid"></div>
+      <div id="space" class="container-fluid"></div> 
 
       <div id="weather" class="container-fluid">
         <img src="image/Weather.jpg" class="img-responsive">
@@ -124,41 +135,48 @@
           </table> 
 
           <div id="result" class="fab2"> Your conversion is.. </div>
-          <div id="moneda2" class="fab2"> . </div>
-                            
+          <div id="moneda2" class="fab2"> . </div>                       
       </div>
       
       <div id="space" class="container-fluid"></div>
-      
-      <div id="mapa" class="container-fluid">
-          <h3 class="text-center">Explore what is around you!</h3>
-          <div id="map"></div>
-      </div>
-      
-      <div id="space" class="container-fluid responsive"></div> 
-      
-      <div id="history" class="container-fluid">
-          <h1 class="text-center"> Travel History</h1>
-          <img src="image/note2.jpg" class="img-responsive">
-          <table class="table">
-            <tbody>
-              <tr class="tr">
-                <td class="td"><button type="button" class="btn btn-default" onclick="readInput()">Save Travel</button></td>
-                <td class="td"><button type="button" class="btn btn-default" onclick="limpia()">Clear History</button></td>
-              </tr>
-            </tbody>
-          </table> 
-          <div>
-            <h4 id="displayInfo" class="text-center"> </h4>
-          </div>
-      </div>
-      
-      
+
+      <div id="photo" class="container-fluid">
+        <h2 class="text-center"> Instant Moment</h2>
+        <img src="image/photo.jpg" class="img-responsive">
+        <div class="text-center">
+          <button type="button" class="btn btn-primary" onclick="pics()">Take Photo</button>
+        </div>
+        <br>
+        <div class="text-center">
+          <img id="myImage" class="img-responsive" ></img>
+        </div>
+    </div>
+
+    <div id="space" class="container-fluid"></div>
+
+    <div id="history" class="container-fluid">
+        <h1 class="text-center"> Travel History</h1>
+        <img src="image/note2.jpg" class="img-responsive">
+        <table class="table">
+          <tbody>
+            <tr class="tr">
+              <td class="td"><button type="button" class="btn btn-default" onclick="readInput()">Save Travel</button></td>
+              <td class="td"><button type="button" class="btn btn-default" onclick="limpia()">Clear History</button></td>
+            </tr>
+          </tbody>
+        </table> 
+        <div>
+          <h4 id="displayInfo" class="text-center"> </h4>
+        </div>
+    </div>
+        
     <script type="text/javascript" src="js/myApp.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
       
       <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApFPNQ2WxbEueUXMJBPHjLenlPnFo68ls&callback=initMap"> </script>
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApFPNQ2WxbEueUXMJBPHjLenlPnFo68ls&callback=initMap"> 
+      </script>
+     
 </body>
 
 </html>
